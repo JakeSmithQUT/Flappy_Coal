@@ -3,8 +3,6 @@
 <canvas  width=360 height=640 id="myCanvas" ontouchstart="touch()"></canvas>
 
 <script>
-
-
 // Setting up canvas and background
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -30,21 +28,17 @@ bg2.src = 'bg2.png';
 bg_x = 0;
 bg_x2 = 385;
 
-
 pipeWidth=50;
 pipeHeight=canvas.height;
 
 var pipe1x = canvas.width;
 var pipe1y = PipePOS[Math.floor(Math.random() * 5)];
-
 var pipe2x = canvas.width*1.5+pipeWidth/2;
 var pipe2y = PipePOS[Math.floor(Math.random() * 5)];
-
 
 ctx.fillStyle = "#add8e6";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
- 
 //Bird
 function Bird(x, y){
 	ctx.beginPath();
@@ -135,8 +129,6 @@ function collisionCheck(){
 	
 }
 
-
-
 function birdPath(){
 	if(jump == false){
 		Bird(brdx,brdy);
@@ -147,9 +139,7 @@ function birdPath(){
 			brdx += brd_Speed_x; brdy-=brd_speed_y;
 			jumpCount += brd_speed_y;
 		}else{jump = false;}
-	
 	}
-
 }
 
 function pipePath(){
@@ -180,8 +170,6 @@ function draw(){
 	ctx.font = "15px Arial";
 	ctx.fillText(Points, canvas.width-40, 20);
 	requestAnimationFrame(draw);
-	
-	
 }
 
 function touch(){
@@ -195,38 +183,9 @@ document.body.onkeydown = function(e){
 		jump = true;
     }
 }
-
-
 draw();
 
 //ClearBird(brdx, brdy)
 
-
-
-
 </script>
 </HTML>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
