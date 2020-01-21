@@ -1,0 +1,215 @@
+<HTML>
+
+<canvas  width=360 height=640 id="myCanvas"></canvas>
+
+<script>
+// Setting up canvas and background
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var brdx = canvas.width/3;
+var brdy = canvas.height/2;
+var brd_Speed_x = 0;
+var brd_speed_y = 7;
+var jump = false;
+var jumpHeight = 100;
+var jumpCount = 0;
+var PipePOS = [canvas.height/5+100, canvas.height/5*2, canvas.height/5*3, canvas.height/5*4, canvas.height/5*5-100];
+var Points = 0;
+
+pipeWidth=50;
+pipeHeight=canvas.height;
+
+var pipe1x = canvas.width;
+var pipe1y = PipePOS[Math.floor(Math.random() * 5)];
+
+var pipe2x = canvas.width*1.5+pipeWidth/2;
+var pipe2y = PipePOS[Math.floor(Math.random() * 5)];
+
+
+ctx.fillStyle = "#add8e6";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+//Bird
+function Bird(x, y){
+	ctx.beginPath();
+	ctx.arc(x, y, 10, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fillStyle = "yellow";
+	ctx.fill();
+	
+
+}
+
+function pipe1(x, y){
+	ctx.beginPath();
+	ctx.rect(x, y, pipeWidth, pipeHeight);
+	ctx.stroke();
+	ctx.fillStyle = "green";
+	
+	ctx.rect(x, y-pipeHeight-200, pipeWidth, pipeHeight);
+	ctx.stroke();
+	ctx.fillStyle = "green";
+	
+	
+	ctx.fill();
+}
+
+function pipe2(x, y){
+	ctx.beginPath();
+	ctx.rect(x, y, pipeWidth, pipeHeight);
+	ctx.stroke();
+	ctx.fillStyle = "green";
+	
+	ctx.rect(x, y-pipeHeight-200, pipeWidth, pipeHeight);
+	ctx.stroke();
+	ctx.fillStyle = "green";
+	
+	
+	ctx.fill();
+}
+
+
+
+
+function ClearBird(x, y){
+	ctx.beginPath();
+	ctx.fillStyle = "#add8e6";
+	ctx.fillRect(0, 0, 1000, 1000);
+}
+  
+function posCheck(){
+	
+	// BIRD
+	if(brdy+5 > canvas.height){
+		ClearBird(brdx-brd_Speed_x,brdy-brd_speed_y);
+		brdy = 0;
+	}
+	if(brdy-5 < 0){
+		ClearBird(brdx-brd_Speed_x,brdy-brd_speed_y);
+		brdy = 10;
+	}
+	 
+	//PIPE
+	if(pipe1x+pipeWidth < 0){
+		pipe1x = canvas.width;
+		pipe1y = PipePOS[Math.floor(Math.random() * 5)];
+	}
+	if(pipe2x+pipeWidth < 0){
+		pipe2x = canvas.width;
+		pipe2y = PipePOS[Math.floor(Math.random() * 5)];
+	}
+	
+	
+}
+  
+function collisionCheck(){
+	
+	// Pipe1
+	if(brdx+5 >= pipe1x && brdx+5 <= pipe1x+pipeWidth && brdy-5 > pipe1y){
+		location.reload();
+	}
+	if(brdx+5 >= pipe1x && brdx+5 <= pipe1x+pipeWidth && brdy+5 < pipe1y-200){
+		location.reload();
+	}
+	
+	//Pipe2
+	if(brdx+5 >= pipe2x && brdx+5 <= pipe2x+pipeWidth && brdy-5 > pipe2y){
+		location.reload();
+	}
+	if(brdx+5 >= pipe2x && brdx+5 <= pipe2x+pipeWidth && brdy+5 < pipe2y-200){
+		location.reload();
+	}
+	
+	if(brdx >= pipe1x-1 && brdx <= pipe1x+1  || brdx >= pipe2x-1 && brdx <= pipe2x+1){
+		Points += 10;
+	}
+	
+}
+
+
+
+function birdPath(){
+	if(jump == false){
+		ClearBird(brdx-brd_Speed_x,brdy-brd_speed_y);
+		Bird(brdx,brdy);
+		brdx += brd_Speed_x; brdy+=brd_speed_y;
+		posCheck();
+		collisionCheck();
+	} else {
+		if(jumpCount <= jumpHeight){
+			ClearBird(brdx+brd_Speed_x,brdy+brd_speed_y);
+			Bird(brdx,brdy);
+			brdx += brd_Speed_x; brdy-=brd_speed_y;
+			jumpCount += brd_speed_y;
+			posCheck();
+			collisionCheck();
+		}else{jump = false;}
+	
+	}
+
+}
+
+function pipePath(){
+		
+		pipe1(pipe1x,pipe1y);
+		pipe1x -= 2;
+		
+		pipe2(pipe2x,pipe2y);
+		pipe2x -= 2;        
+
+}
+
+function draw(){
+
+	birdPath();
+	pipePath();
+	ctx.beginPath();
+	ctx.fillStyle = "black";
+	ctx.font = "15px Arial";
+	ctx.fillText(Points, canvas.width-40, 20);
+	requestAnimationFrame(draw);
+	
+	
+}
+
+document.body.onkeydown = function(e){
+    if(e.keyCode == 32){
+		jumpCount=0;
+		jump = true;
+    }
+}
+
+
+draw();
+
+//ClearBird(brdx, brdy)
+
+
+
+
+</script>
+</HTML>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
