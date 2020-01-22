@@ -16,6 +16,8 @@ var jumpCount = 0;
 var PipePOS = [canvas.height/5+100, canvas.height/5*2, canvas.height/5*3, canvas.height/5*4, canvas.height/5*5-100];
 var Points = 0;
 var pipeSpace = 130;
+var begin = false;
+var offset = 100;
 
 coal = new Image();
 coal.src = 'coal.png';
@@ -31,9 +33,9 @@ bg_x2 = 625;
 pipeWidth=50;
 pipeHeight=canvas.height;
 
-var pipe1x = canvas.width;
+var pipe1x = canvas.width+offset;
 var pipe1y = PipePOS[Math.floor(Math.random() * 5)];
-var pipe2x = canvas.width*1.5+pipeWidth/2;
+var pipe2x = canvas.width*1.5+pipeWidth/2+offset;
 var pipe2y = PipePOS[Math.floor(Math.random() * 5)];
 
 ctx.fillStyle = "grey";
@@ -107,18 +109,18 @@ function collisionCheck(){
 	
 	// Pipe1
 	if(brdx+20 >= pipe1x && brdx+20 <= pipe1x+pipeWidth && brdy+20 >= pipe1y){
-		location.reload();
+		reset();
 	}
 	if(brdx+20 >= pipe1x && brdx+20 <= pipe1x+pipeWidth && brdy <= pipe1y-pipeSpace){
-		location.reload();
+		reset();
 	}
 	
 	//Pipe2
 	if(brdx+20 >= pipe2x && brdx+20 <= pipe2x+pipeWidth && brdy+20 >= pipe2y){
-		location.reload();
+		reset();
 	}
 	if(brdx+20 >= pipe2x && brdx+20 <= pipe2x+pipeWidth && brdy <= pipe2y-pipeSpace){
-		location.reload();
+		reset();
 	}
 	
 	if(brdx >= pipe1x-1 && brdx <= pipe1x+1  || brdx >= pipe2x-1 && brdx <= pipe2x+1){
@@ -130,7 +132,7 @@ function collisionCheck(){
 function birdPath(){
 	if(jump == false){
 		Bird(brdx,brdy);
-		brdx += brd_Speed_x; brdy+=brd_speed_y;
+		brdx += brd_Speed_x; if(begin==true){brdy+=brd_speed_y;}
 	} else {
 		if(jumpCount <= jumpHeight){
 			Bird(brdx,brdy);
@@ -150,10 +152,26 @@ function pipePath(){
 		bg_x2 -= 1;
 		
 		pipe1(pipe1x,pipe1y);
-		pipe1x -= 2;
+		if(begin==true){pipe1x -= 2;}
 		
 		pipe2(pipe2x,pipe2y);
-		pipe2x -= 2;    
+		if(begin==true){pipe2x -= 2;}    
+}
+function reset(){
+	brdx = canvas.width/3;
+	brdy = canvas.height/2;
+	brd_Speed_x = 0;
+	brd_speed_y = 7;
+	jump = false;
+	jumpHeight = 100;
+	jumpCount = 0;
+	Points = 0;
+	pipeSpace = 130;
+	pipe1x = canvas.width+offset;
+	pipe1y = PipePOS[Math.floor(Math.random() * 5)];
+	pipe2x = canvas.width*1.5+pipeWidth/2+offset;
+	pipe2y = PipePOS[Math.floor(Math.random() * 5)];
+	begin = false;
 }
 
 function draw(){
@@ -179,6 +197,7 @@ document.body.onkeydown = function(e){
     if(e.keyCode == 32){
 		jumpCount=0;
 		jump = true;
+		begin = true;
     }
 }
 draw();
