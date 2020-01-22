@@ -15,7 +15,7 @@ var jumpHeight = 100;
 var jumpCount = 0;
 var PipePOS = [canvas.height/5+100, canvas.height/5*2, canvas.height/5*3, canvas.height/5*4, canvas.height/5*5-100];
 var Points = 0;
-var pipeSpace = 150;
+var pipeSpace = 130;
 
 coal = new Image();
 coal.src = 'coal.png';
@@ -36,13 +36,13 @@ var pipe1y = PipePOS[Math.floor(Math.random() * 5)];
 var pipe2x = canvas.width*1.5+pipeWidth/2;
 var pipe2y = PipePOS[Math.floor(Math.random() * 5)];
 
-ctx.fillStyle = "#add8e6";
+ctx.fillStyle = "grey";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 //Bird
 function Bird(x, y){
 	ctx.beginPath();
-	ctx.drawImage(coal, x,y)
+	ctx.drawImage(coal, x,y);
 }
 
 function BackG(x, y){
@@ -69,19 +69,17 @@ function pipe2(x, y){
 
 function ClearBird(x, y){
 	ctx.beginPath();
-	ctx.fillStyle = "#add8e6";
-	ctx.fillRect(0, 0, 1000, 1000);
+	ctx.fillStyle = "grey";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
   
 function posCheck(){
 	
 	// BIRD
 	if(brdy+5 > canvas.height){
-		ClearBird(brdx-brd_Speed_x,brdy-brd_speed_y);
 		brdy = 0;
 	}
 	if(brdy-5 < 0){
-		ClearBird(brdx-brd_Speed_x,brdy-brd_speed_y);
 		brdy = 10;
 	}
 	 
@@ -108,18 +106,18 @@ function posCheck(){
 function collisionCheck(){
 	
 	// Pipe1
-	if(brdx+5 >= pipe1x && brdx+5 <= pipe1x+pipeWidth && brdy-5 > pipe1y){
+	if(brdx+20 >= pipe1x && brdx+20 <= pipe1x+pipeWidth && brdy+20 >= pipe1y){
 		location.reload();
 	}
-	if(brdx+5 >= pipe1x && brdx+5 <= pipe1x+pipeWidth && brdy+5 < pipe1y-pipeSpace){
+	if(brdx+20 >= pipe1x && brdx+20 <= pipe1x+pipeWidth && brdy <= pipe1y-pipeSpace){
 		location.reload();
 	}
 	
 	//Pipe2
-	if(brdx+5 >= pipe2x && brdx+5 <= pipe2x+pipeWidth && brdy-5 > pipe2y){
+	if(brdx+20 >= pipe2x && brdx+20 <= pipe2x+pipeWidth && brdy+20 >= pipe2y){
 		location.reload();
 	}
-	if(brdx+5 >= pipe2x && brdx+5 <= pipe2x+pipeWidth && brdy+5 < pipe2y-pipeSpace){
+	if(brdx+20 >= pipe2x && brdx+20 <= pipe2x+pipeWidth && brdy <= pipe2y-pipeSpace){
 		location.reload();
 	}
 	
